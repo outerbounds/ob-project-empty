@@ -30,10 +30,7 @@ steps:
       echo "  Platform: $PLATFORM"
       echo "  CI/CD User: $CICD_USER"
       echo "  Perimeter: $PERIMETER"
-      python -m pip install -U 'outerbounds[azure]' && \
-      python3 -m pip install -U requests toml
-      python3 -m pip install outerbounds pyyaml
-      python3 -m pip install -U ob-project-utils
+      python -m pip install -U pyyaml requests toml 'outerbounds[azure]' ob-project-utils
       outerbounds service-principal-configure \
         --name $CICD_USER \
         --deployment-domain $PLATFORM \
@@ -44,8 +41,7 @@ steps:
     # Debug environment detection
     echo "=== Debugging CI Environment ==="
     echo "BUILD_SOURCEBRANCH: $(Build.SourceBranch)"
-    echo "BUILD_SOURCEBRANCHNAME: $(Build.SourceBranchName)"
-    echo "SYSTEM_TEAMFOUNDATIONCOLLECTIONURI: $(System.TeamFoundationCollectionUri)"
+    echo "SYSTEM_COLLECTIONURI: $(System.CollectionUri)"
     echo "Git branch from rev-parse: $(git rev-parse --abbrev-ref HEAD)"
     echo "Git status:"
     git status
@@ -55,16 +51,15 @@ steps:
             
   displayName: 'Deploy Project'
   env:
+    # https://learn.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops
     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
     PYTHONUNBUFFERED: 1
     # Pass all Azure DevOps variables that the deploy script needs
     BUILD_SOURCEBRANCH: $(Build.SourceBranch)
     SYSTEM_PULLREQUEST_SOURCEBRANCH: $(System.PullRequest.SourceBranch)
-    BUILD_SOURCEBRANCHNAME: $(Build.SourceBranchName)
-    SYSTEM_TEAMFOUNDATIONCOLLECTIONURI: $(System.TeamFoundationCollectionUri)
+    SYSTEM_COLLECTIONURI: $(System.CollectionUri)
     SYSTEM_TEAMPROJECT: $(System.TeamProject)
     BUILD_REPOSITORY_NAME: $(Build.Repository.Name)
     BUILD_REPOSITORY_ID: $(Build.Repository.ID)
     BUILD_BUILDID: $(Build.BuildId)
-    BUILD_SOURCEVERSION: $(Build.SourceVersion)
     SYSTEM_PULLREQUEST_PULLREQUESTID: $(System.PullRequest.PullRequestId)
