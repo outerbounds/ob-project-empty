@@ -1,8 +1,11 @@
-from metaflow import step
+from metaflow import step, kubernetes
 from obproject import ProjectFlow
+
+cp="c5-2x-task"
 
 class TestFlow(ProjectFlow):
 
+    @kubernetes(compute_pool=cp)
     @step
     def start(self):
         import numpy as np
@@ -14,6 +17,7 @@ class TestFlow(ProjectFlow):
         print("version:", pi.__version__)
         self.next(self.end)
 
+    @kubernetes(compute_pool=cp)
     @step
     def end(self):
         print("Done")
