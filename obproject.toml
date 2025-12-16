@@ -7,8 +7,8 @@ project = 'ob_project_empty'
 title = 'Empty Outerbounds Project'
 
 # (optional) disable automatic application of a project-wide pyproject.toml
-# [dependencies]
-# include_pyproject_toml=false
+[dependencies]
+include_pyproject_toml = true
 
 # (optional) Enable this section to access assets in local runs
 # [dev-assets]
