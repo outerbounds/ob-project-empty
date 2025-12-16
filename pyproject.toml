@@ -1,0 +1,14 @@
+[project]
+name = "ob-test"
+version = "0.1.0"
+description = "Outerbounds test project"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "aws-secretsmanager-caching==1.1.3",
+    "boto3==1.40.18",
+    "outerbounds==0.10.8",
+    "pydantic==2.11.7",
+    "pyiceberg[s3fs,glue]==0.8.0",
+    "numpy==2.3.5"
+]
