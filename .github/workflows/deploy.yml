@@ -2,10 +2,11 @@ name: Deploy Project
 on:
   push:
     branches:
-    - main
+      - main
+      - feature/*
   pull_request:
     branches:
-    - main
+      - main
 
 env:
   GH_HEAD_REF: ${{ github.head_ref }}
@@ -22,30 +23,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.12"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    - name: Install dependencies
-      run: pip install outerbounds ob-project-utils
+      - name: Install dependencies
+        run: pip install outerbounds ob-project-utils
 
-    - name: Configure Outerbounds
-      run: |
-        outerbounds service-principal-configure \
-          --from-obproject-toml \
-          --github-actions
+      - name: Configure Outerbounds
+        run: |
+          outerbounds service-principal-configure \
+            --from-obproject-toml \
+            --github-actions
 
-    - name: Deploy Project
-      env:
-        COMMIT_URL: "https://github.com/${{ github.repository }}/commit/"
-        CI_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COMMENTS_URL: ${{ github.event.pull_request.comments_url }}
-        PYTHONUNBUFFERED: 1
-      run: obproject-deploy
+      - name: Deploy Project
+        env:
+          COMMIT_URL: "https://github.com/${{ github.repository }}/commit/"
+          CI_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMENTS_URL: ${{ github.event.pull_request.comments_url }}
+          PYTHONUNBUFFERED: 1
+        run: obproject-deploy
