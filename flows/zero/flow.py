@@ -40,7 +40,7 @@ class ZeroScalableFlow(ProjectFlow):  # pyright: ignore
 
 
 if __name__ == "__main__":
-    ScalableFlow()
+    ZeroScalableFlow()
 
 
 # Notes:
