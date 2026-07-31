@@ -1,6 +1,7 @@
 from metaflow import FlowSpec, step
+from obproject import ProjectFlow
 
-class MyLinearFlow(FlowSpec):
+class MyLinearFlow(ProjectFlow):
 
     @step
     def start(self):
